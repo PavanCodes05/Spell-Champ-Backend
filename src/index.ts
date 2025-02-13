@@ -9,6 +9,6 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/api', apiRoutes);
 
-app.listen(ServerConfig, () => {
-    console.log(`Server is running on the port: ${ServerConfig}`);
+app.listen(ServerConfig.PORT, () => {
+    console.log(`Server is running on the port: ${ServerConfig.PORT}`);
 });
