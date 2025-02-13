@@ -1,11 +1,13 @@
 import express, { Express } from 'express';
 
-import { ServerConfig } from './config';
-import { v1Routes } from './routes';
+import { ServerConfig } from './config/index.js';
+import apiRoutes from './routes/index.js';
 
 const app: Express = express();
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-app.use('/v1', v1Routes);
+app.use('/api', apiRoutes);
 
 app.listen(ServerConfig, () => {
     console.log(`Server is running on the port: ${ServerConfig}`);
