@@ -1,5 +1,5 @@
-import {PORT as ServerConfig} from './server-config';
-import { db as DB} from './database-config'
+import {PORT as ServerConfig} from './server-config.js';
+import { db as DB} from './database-config.js'
 
 export {
     ServerConfig,
