@@ -10,4 +10,6 @@ dotenv.config({path: path.resolve(__dirname, '../../.env')});
 
 const PORT = process.env.PORT;
 
-export { PORT };
+const ServerConfig = {PORT};
+
+export default ServerConfig;
