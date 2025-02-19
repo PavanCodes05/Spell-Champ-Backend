@@ -1,4 +1,4 @@
-import { doc, collection, addDoc, getDocs, getDoc } from 'firebase/firestore';
+import { doc, collection, addDoc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
 import { FirebaseConfig } from '../config/index.js';
 
 class CrudRepository {
@@ -51,6 +51,19 @@ class CrudRepository {
 
         } catch (error) {
             console.log("Error in getDocumentById-repo");
+        };
+    };
+
+    updateField = async(id: string, newData: any) => {
+        try {
+            const docRef = doc(FirebaseConfig.db, this.collectionName, id);
+
+            await updateDoc(docRef, newData);
+            const updatedDoc = await this.getDocumentById(docRef.id);
+
+            return updatedDoc;
+        } catch (error) {
+            console.log("Error in updateField-repo");       
         };
     };
 };
