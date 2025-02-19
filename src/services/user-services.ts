@@ -14,6 +14,24 @@ const createDocService = async(data: unknown) => {
     };
 };
 
-const UserServices = { createDocService };
+const getAllDocsService = async() => {
+    try {
+        const documents = users.getAllDocuments();
+        return documents;
+    } catch (error) {
+        console.log("Error in getAllDocs service");
+    }
+}
+
+const getDocByIdService = async(docId: string) => {
+    try {
+        const document = users.getDocumentById(docId);
+        return document;
+    } catch (error) {
+        console.log("Error in getDocById service"); 
+    }
+}
+
+const UserServices = { createDocService, getAllDocsService, getDocByIdService};
 
 export default UserServices;
