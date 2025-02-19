@@ -40,8 +40,8 @@ const emailLogin = async(req: Request, res: Response): Promise<void> => {
     } catch (error) {
         res.status(500).json({message: "Error in emailLogin-controller"});
     }
-}
+};
 
-const authController = {emailSignup, emailLogin};
+const AuthController = {emailSignup, emailLogin};
 
-export default authController;
+export default AuthController;
