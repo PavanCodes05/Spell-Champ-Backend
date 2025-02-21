@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { UserSchema } from '../models/index.js'
 import { UserServices } from '../services/index.js';
 import { FirebaseConfig } from '../config/index.js';
+import { ErrorResponse, SuccessResponse } from '../utils/index.js';
+import { StatusCodes } from 'http-status-codes';
 
 const emailSignup = async(req: Request, res: Response): Promise<void> => {
     try {
@@ -25,8 +27,9 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
             id: docRef?.id
         });
 
-    } catch (error) {
-       res.status(500).json({message: "Error in emailSignup-controller", error: error}); 
+    } catch (error: any) {
+        ErrorResponse.error = error;
+        res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
     }  
 } 
 

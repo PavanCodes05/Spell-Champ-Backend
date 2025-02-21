@@ -1,5 +1,8 @@
 import { doc, collection, addDoc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
+import { StatusCodes } from 'http-status-codes'; 
+
 import { FirebaseConfig } from '../config/index.js';
+import { AppError } from '../utils/index.js';
 
 class CrudRepository {
     collectionName: string;
@@ -11,11 +14,10 @@ class CrudRepository {
     addDocument = async(data: Object) => {
         try {
             const docRef = await addDoc(collection(FirebaseConfig.db, this.collectionName), data);
-            console.log(`Document written with ID: ${docRef.id}`);
 
             return docRef;
         } catch (error) {
-            console.log("Error in repo");   
+            throw new AppError(StatusCodes.NOT_IMPLEMENTED, "Not able to create document");
         };
     };
 

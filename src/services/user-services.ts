@@ -10,7 +10,7 @@ const createDocService = async(data: unknown) => {
         const docRef = await users.addDocument(validatedData);
         return docRef;
     } catch (error) {
-        console.log("Error in create-doc service");
+        throw error;
     };
 };
 
