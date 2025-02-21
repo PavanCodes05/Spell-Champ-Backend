@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_OPTIONS='--loader ts-node/esm' ts-node src/index.ts",
+    "win-dev": "set NODE_OPTIONS=--loader ts-node/esm && ts-node src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js"
   },
