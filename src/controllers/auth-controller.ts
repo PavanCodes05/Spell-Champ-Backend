@@ -21,11 +21,10 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         userData.data.userId = user.uid;
 
         const docRef = await UserServices.createDocService(userData.data);
-        
-        res.status(200).json({
-            message: "Success",
-            id: docRef?.id
-        });
+        const { password, ...userWithoutPassword } = userData.data;
+
+        SuccessResponse.data = userWithoutPassword;
+        res.status(StatusCodes.CREATED).json(SuccessResponse);
         
         return;
     } catch (error: any) {
