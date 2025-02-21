@@ -12,7 +12,7 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         const userData = UserSchema.safeParse(req.body);
         if(!userData.success) {
             res.status(400).json({message: "Invalid Input", errors: userData.error.format()});
-            return
+            return; 
         };
 
         const userCredential = await createUserWithEmailAndPassword(FirebaseConfig.auth, userData.data.email, userData.data.password);
@@ -26,10 +26,12 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
             message: "Success",
             id: docRef?.id
         });
-
+        
+        return;
     } catch (error: any) {
         ErrorResponse.error = error;
         res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
+        return; 
     }  
 } 
 
@@ -40,8 +42,10 @@ const emailLogin = async(req: Request, res: Response): Promise<void> => {
         const user = userCredential.user;
 
         res.status(200).json({user});
+        return; 
     } catch (error) {
         res.status(500).json({message: "Error in emailLogin-controller"});
+        return; 
     }
 };
 
