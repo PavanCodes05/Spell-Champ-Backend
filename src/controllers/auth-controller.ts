@@ -11,7 +11,7 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
     try {
         const userData = UserSchema.safeParse(req.body);
         if(!userData.success) {
-            res.status(500).json({message: "Something Went Wrong", errors: userData.error.format()});
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message: "Something Went Wrong", errors: userData.error.format()});
             return; 
         };
 
