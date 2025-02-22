@@ -16,15 +16,17 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         };
 
         const userCredential = await createUserWithEmailAndPassword(FirebaseConfig.auth, userData.data.email, userData.data.password);
+        
         const user = userCredential.user;
-
         userData.data.userId = user.uid;
 
         const docRef = await UserServices.createDocService(userData.data);
-        const { password, ...userWithoutPassword } = userData.data;
+        const docId = docRef.id;
 
-        SuccessResponse.data = userWithoutPassword;
-        
+        const userInfo = await UserServices.getDocByIdService(docId);
+        delete userInfo!.password;
+
+        SuccessResponse.data = userInfo!;
         res.status(StatusCodes.CREATED).json(SuccessResponse);
         return;
     } catch (error: any) {
