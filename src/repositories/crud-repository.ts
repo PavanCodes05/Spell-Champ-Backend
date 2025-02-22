@@ -1,4 +1,4 @@
-import { doc, collection, addDoc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, collection, addDoc, getDocs, getDoc, updateDoc, query, where } from 'firebase/firestore';
 import { StatusCodes } from 'http-status-codes'; 
 
 import { FirebaseConfig } from '../config/index.js';
@@ -54,6 +54,22 @@ class CrudRepository {
         } catch (error) {
             console.log("Error in getDocumentById-repo");
         };
+    };
+
+    getDocumentByUID = async(uid: string) => {
+      try {
+        const q = query(collection(FirebaseConfig.db, 'users'), where('userId', '==', uid));
+        const querySnapshot = await getDocs(q);
+
+        if(!querySnapshot.empty) { 
+            const userData = querySnapshot.docs[0].data();
+            return userData;
+        } else {
+            return null;
+        };
+      } catch (error) {
+        throw new AppError(500, "Not able to retrieve user by uid");
+      };
     };
 
     updateField = async(id: string, newData: any) => {
