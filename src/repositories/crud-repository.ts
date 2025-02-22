@@ -32,7 +32,7 @@ class CrudRepository {
 
             return documents;
         } catch (error) {
-            console.log("error in getall-repo");        
+            throw new AppError(StatusCodes.BAD_GATEWAY, "Not able to get all docs");
         };
     };
 
@@ -52,7 +52,7 @@ class CrudRepository {
             };
 
         } catch (error) {
-            console.log("Error in getDocumentById-repo");
+            throw new AppError(StatusCodes.BAD_GATEWAY, "Not able to get docs");
         };
     };
 
@@ -81,7 +81,7 @@ class CrudRepository {
 
             return updatedDoc;
         } catch (error) {
-            console.log("Error in updateField-repo");       
+            throw new AppError(StatusCodes.CONFLICT, "Not able to update field!");
         };
     };
 };

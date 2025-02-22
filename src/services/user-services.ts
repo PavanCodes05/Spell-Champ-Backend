@@ -19,7 +19,7 @@ const getAllDocsService = async() => {
         const documents = await users.getAllDocuments();
         return documents;
     } catch (error) {
-        console.log("Error in getAllDocs service");
+        throw error;
     };
 };
 
@@ -28,7 +28,7 @@ const getDocByIdService = async(docId: string) => {
         const document = await users.getDocumentById(docId);
         return document;
     } catch (error) {
-        console.log("Error in getDocById service"); 
+        throw error;
     };
 };
 
@@ -46,7 +46,7 @@ const updateFieldService = async(id: string, newData: any) => {
         const updatedDoc = await users.updateField(id, newData);
         return updatedDoc;
     } catch (error) {
-        console.log("Error in updateField service");     
+        throw error;
     };
 };
 

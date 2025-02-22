@@ -24,8 +24,8 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         const { password, ...userWithoutPassword } = userData.data;
 
         SuccessResponse.data = userWithoutPassword;
-        res.status(StatusCodes.CREATED).json(SuccessResponse);
         
+        res.status(StatusCodes.CREATED).json(SuccessResponse);
         return;
     } catch (error: any) {
         ErrorResponse.error = error;
