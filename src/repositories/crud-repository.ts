@@ -68,7 +68,7 @@ class CrudRepository {
             return null;
         };
       } catch (error) {
-        throw new AppError(500, "Oops! Something went wrong on our end.");
+        throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, "Oops! Something went wrong on our end.");
       };
     };
 
