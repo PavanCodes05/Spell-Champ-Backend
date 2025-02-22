@@ -16,7 +16,7 @@ const createDocService = async(data: unknown) => {
 
 const getAllDocsService = async() => {
     try {
-        const documents = users.getAllDocuments();
+        const documents = await users.getAllDocuments();
         return documents;
     } catch (error) {
         console.log("Error in getAllDocs service");
@@ -25,10 +25,19 @@ const getAllDocsService = async() => {
 
 const getDocByIdService = async(docId: string) => {
     try {
-        const document = users.getDocumentById(docId);
+        const document = await users.getDocumentById(docId);
         return document;
     } catch (error) {
         console.log("Error in getDocById service"); 
+    };
+};
+
+const getDocByUID = async(uid: string) => {
+    try {
+        const document = await users.getDocumentByUID(uid);
+        return document;
+    } catch (error) {
+        throw error;
     };
 };
 
@@ -41,6 +50,6 @@ const updateFieldService = async(id: string, newData: any) => {
     };
 };
 
-const UserServices = { createDocService, getAllDocsService, getDocByIdService, updateFieldService};
+const UserServices = { createDocService, getAllDocsService, getDocByIdService, getDocByUID, updateFieldService};
 
 export default UserServices;

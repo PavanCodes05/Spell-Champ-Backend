@@ -38,12 +38,16 @@ const emailLogin = async(req: Request, res: Response): Promise<void> => {
     try {
         const {email, password} = req.body;
         const userCredential = await signInWithEmailAndPassword(FirebaseConfig.auth, email, password);
-        const user = userCredential.user;
+        const userId = userCredential.user.uid;
 
-        res.status(200).json({user});
+        const userData = await UserServices.getDocByUID(userId);
+        SuccessResponse.data = userData!;
+
+        res.status(StatusCodes.OK).json(SuccessResponse);
         return; 
-    } catch (error) {
-        res.status(500).json({message: "Error in emailLogin-controller"});
+    } catch (error) {    
+        ErrorResponse.error = error!;
+        res.status(StatusCodes.UNAUTHORIZED).json(ErrorResponse);
         return; 
     }
 };
