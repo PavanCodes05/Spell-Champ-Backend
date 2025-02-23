@@ -17,7 +17,7 @@ class CrudRepository {
 
             return docRef;
         } catch (error) {
-            throw new AppError(StatusCodes.NOT_IMPLEMENTED, "Not able to create document");
+            throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, "Oops! Something went wrong on our end.");
         };
     };
 
@@ -32,7 +32,7 @@ class CrudRepository {
 
             return documents;
         } catch (error) {
-            throw new AppError(StatusCodes.BAD_GATEWAY, "Not able to get all docs");
+            throw new AppError(StatusCodes.NOT_FOUND, "The requested documents are not found");
         };
     };
 
@@ -52,7 +52,7 @@ class CrudRepository {
             };
 
         } catch (error) {
-            throw new AppError(StatusCodes.BAD_GATEWAY, "Not able to get docs");
+            throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, "Oops! Something went wrong on our end.");
         };
     };
 
@@ -68,7 +68,7 @@ class CrudRepository {
             return null;
         };
       } catch (error) {
-        throw new AppError(500, "Not able to retrieve user by uid");
+        throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, "Oops! Something went wrong on our end.");
       };
     };
 
@@ -81,7 +81,7 @@ class CrudRepository {
 
             return updatedDoc;
         } catch (error) {
-            throw new AppError(StatusCodes.CONFLICT, "Not able to update field!");
+            throw new AppError(StatusCodes.UNPROCESSABLE_ENTITY, "Not able to update field!");
         };
     };
 };

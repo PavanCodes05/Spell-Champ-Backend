@@ -11,7 +11,7 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
     try {
         const userData = UserSchema.safeParse(req.body);
         if(!userData.success) {
-            res.status(400).json({message: "Invalid Input", errors: userData.error.format()});
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message: "Something Went Wrong", errors: userData.error.format()});
             return; 
         };
 
@@ -31,7 +31,7 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         return;
     } catch (error: any) {
         ErrorResponse.error = error;
-        res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
+        res.status(StatusCodes.CONFLICT).json(ErrorResponse);
         return; 
     }  
 } 
