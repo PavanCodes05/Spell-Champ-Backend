@@ -9,11 +9,11 @@ const createGradeController = async(req: Request, res: Response): Promise<void> 
         const gradeInfo = await GradeServices.createGradeService(grade, req.body);
 
         SuccessResponse.data = gradeInfo!;
-        res.status(200).json(SuccessResponse);
+        res.status(StatusCodes.CREATED).json(SuccessResponse);
         return;
     } catch (error) {
         ErrorResponse.error = error!;
-        res.status(400).json(ErrorResponse);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
         return;
     };
 };
@@ -24,7 +24,7 @@ const createExerciseController = async(req: Request, res: Response): Promise<voi
         const gradeInfo = await GradeServices.createExerciseService(grade);
 
         SuccessResponse.data = gradeInfo!;
-        res.status(StatusCodes.OK).json(SuccessResponse);
+        res.status(StatusCodes.CREATED).json(SuccessResponse);
         return;
     } catch (error) {
         ErrorResponse.error = error!;
@@ -39,11 +39,11 @@ const getExercisesController = async(req: Request, res: Response ): Promise<void
         const exercises = await GradeServices.getExercisesService(parseInt(grade));
 
         SuccessResponse.data = exercises;
-        res.status(200).json(SuccessResponse);
+        res.status(StatusCodes.OK).json(SuccessResponse);
         return;
     } catch (error) {
         ErrorResponse.error = error!;
-        res.status(500).json(ErrorResponse);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
         return;  
     };
 };
@@ -54,11 +54,11 @@ const getQuizzesController = async(req: Request, res: Response): Promise<void> =
         const quizzes = await GradeServices.getQuizzesService(parseInt(grade));
 
         SuccessResponse.data = quizzes;
-        res.status(200).json(SuccessResponse);
+        res.status(StatusCodes.OK).json(SuccessResponse);
         return;
     } catch (error) {
         ErrorResponse.error = error!;
-        res.status(500).json(ErrorResponse);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
         return;      
     };
 };
