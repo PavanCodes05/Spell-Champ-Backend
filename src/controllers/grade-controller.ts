@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GradeServices } from '../services/index.js';
+import { GradeServices, UserServices } from '../services/index.js';
 import { ErrorResponse, SuccessResponse } from '../utils/index.js';
 import { StatusCodes } from 'http-status-codes';
 
@@ -63,6 +63,20 @@ const getQuizzesController = async(req: Request, res: Response): Promise<void> =
     };
 };
 
-const GradeController = { createExerciseController, createGradeController, getExercisesController, getQuizzesController };
+const gradeupdateController = async(req: Request, res: Response): Promise<void> => {
+    try {
+        const { id , grade } = req.body;
+        const gradeinfo = await UserServices.updategradeService(id , grade);
+
+        SuccessResponse.data = gradeinfo!;
+        res.status(200).json(SuccessResponse);
+        return;
+    } catch (error) {
+        ErrorResponse.error = error!;
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+        return;      
+    };
+};
+const GradeController = { createExerciseController, createGradeController, getExercisesController, getQuizzesController , gradeupdateController};
 
 export default GradeController;

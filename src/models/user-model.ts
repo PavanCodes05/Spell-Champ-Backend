@@ -2,6 +2,7 @@ import { z as zod } from 'zod';
 
 const UserSchema = zod.object({
     userId: zod.string().default(""),
+    id: zod.string().optional(),
     name: zod.string().min(1, "Name is required"),
     email: zod.string().email(),
     password: zod.string().min(6, "Password must be atleast 6 characters"),
