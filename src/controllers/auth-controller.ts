@@ -23,6 +23,8 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         const docRef = await UserServices.createDocService(userData.data);
         const docId = docRef.id;
 
+        const addDocId = await UserServices.updateFieldService(docId, {"id": docId});
+
         const userInfo = await UserServices.getDocByIdService(docId);
         delete userInfo!.password;
 
@@ -53,6 +55,7 @@ const emailLogin = async(req: Request, res: Response): Promise<void> => {
         return; 
     }
 };
+
 
 const AuthController = {emailSignup, emailLogin};
 

@@ -1,5 +1,7 @@
 import { UserRepository } from '../repositories/index.js';
 import { UserSchema } from '../models/index.js';
+import { AppError } from '../utils/index.js';
+import { updateDoc } from 'firebase/firestore';
 
 const users = new UserRepository();
 
@@ -49,7 +51,22 @@ const updateFieldService = async(id: string, newData: any) => {
         throw error;
     };
 };
+const updategradeService = async( id: string ,grade: number) => {
+    try{
+        const userInfo = await UserServices.getDocByIdService(id);
+        if (!userInfo){
+            throw new AppError(404,"user doesn't exist");
+        }
+        
+        const newgrade = await UserServices.updateFieldService(id,{currentGrade : grade});
+        
+        const UpdatedUserInfo = await UserServices.getDocByIdService(id);
+        return UpdatedUserInfo;
+    }catch ( error) {
+        throw error;
+    }
+};
 
-const UserServices = { createDocService, getAllDocsService, getDocByIdService, getDocByUID, updateFieldService};
+const UserServices = { createDocService, getAllDocsService, getDocByIdService, getDocByUID, updateFieldService , updategradeService};
 
 export default UserServices;
