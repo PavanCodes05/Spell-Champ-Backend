@@ -11,5 +11,6 @@ MESSAGING_SENDER_ID="YOUR_MESSAGING_SENDER_ID"
 APP_ID="YOUR_APP_ID"
 ```
 ## Contributors
-1. Sumayyah Khan 
-2. Sakthi 
+1. Pavan Prakash 
+2. Sumayyah Khan
+3. Sakthi 
