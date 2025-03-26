@@ -3,6 +3,7 @@
 **Developer Note**:
 *env file-firebase config*
 ```
+PORT="PORT_NUMBER"
 API_KEY="YOUR_API_KEY"
 AUTH_DOMAIN="YOUR_AUTH_DOMAIN"
 PROJECT_ID="YOUR_PROJECT_ID"
