@@ -50,6 +50,7 @@ const updateFieldService = async(id: string, newData: any) => {
     };
 };
 
+
 const UserServices = { createDocService, getAllDocsService, getDocByIdService, getDocByUID, updateFieldService};
 
 export default UserServices;

@@ -1,6 +1,7 @@
 import { GradeRepository } from '../repositories/index.js';
 import { GradeSchema } from '../models/index.js';
 import { AppError } from '../utils/index.js';
+import UserServices from "./user-services.js";
 
 const grades = new GradeRepository();
 
@@ -70,6 +71,22 @@ const getQuizzesService = async(grade: number) => {
     };
 };
 
-
-const GradeServices = { createExerciseService, createGradeService, getExercisesService, getQuizzesService};
+    const updategradeService = async( id: string ,grade: number) => {
+        try{
+            const userInfo = await UserServices.getDocByIdService(id);
+            if (!userInfo){
+                throw new AppError(404,"user doesn't exist");
+            }
+            
+            const newgrade = await UserServices.updateFieldService(id,{currentGrade : grade});
+            
+            const UpdatedUserInfo = await UserServices.getDocByIdService(id);
+            return UpdatedUserInfo;
+        }catch ( error) {
+            throw error;
+        };
+    
+    
+};
+const GradeServices = { createExerciseService, createGradeService, getExercisesService, getQuizzesService, updategradeService};
 export default GradeServices;
