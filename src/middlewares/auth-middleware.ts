@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { JWT } from "../utils/index.js"
+import { ErrorResponse, JWT } from "../utils/index.js";
+import { StatusCodes } from "http-status-codes";
+
+
 
 interface AuthRequest extends Request {
     user?: {userId: string};
@@ -9,7 +12,7 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): vo
     const authHeader = req.headers.authorization;
 
     if(!authHeader || !authHeader.startsWith("Bearer ")) {
-        res.status(401).json({message: "Unauthorized"});
+        res.status(StatusCodes.UNAUTHORIZED).json({message:"Unauthorized"});
         return;
     };
 
@@ -18,9 +21,10 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): vo
         const decoded = JWT.verifyToken(token);
         req.user = { userId: decoded.userId };
         next();
-        return; 
+        return;
     } catch (error) {
-        res.status(403).json({message: "Invalid Token"});  
+        ErrorResponse.error=error!;
+        res.status(StatusCodes.BAD_REQUEST).json({message: "Invalid Token"});  
         return; 
     };
 };
