@@ -15,6 +15,10 @@ class CrudRepository {
         try {
             const docRef = await addDoc(collection(FirebaseConfig.db, this.collectionName), data);
 
+            await updateDoc(docRef, {
+                docId: docRef.id
+            })
+
             return docRef;
         } catch (error) {
             throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, "Oops! Something went wrong on our end.");
