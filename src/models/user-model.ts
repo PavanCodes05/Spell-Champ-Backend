@@ -1,6 +1,7 @@
 import { z as zod } from 'zod';
 
 const UserSchema = zod.object({
+    docId: zod.string().optional(),
     userId: zod.string().default(""),
     name: zod.string().min(1, "Name is required"),
     email: zod.string().email(),
