@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 dotenv.config({path: path.resolve(__dirname, '../../.env')});
 
 const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET
 
-const ServerConfig = {PORT};
+const ServerConfig = { PORT, JWT_SECRET };
 
 export default ServerConfig;

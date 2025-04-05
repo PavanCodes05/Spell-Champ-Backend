@@ -1,11 +1,12 @@
 import {Request, Response} from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { UserSchema } from '../models/index.js'
 import { UserServices } from '../services/index.js';
 import { FirebaseConfig } from '../config/index.js';
 import { ErrorResponse, SuccessResponse } from '../utils/index.js';
-import { StatusCodes } from 'http-status-codes';
+import { JWT } from "../utils/index.js";
 
 const emailSignup = async(req: Request, res: Response): Promise<void> => {
     try {
@@ -19,6 +20,9 @@ const emailSignup = async(req: Request, res: Response): Promise<void> => {
         
         const user = userCredential.user;
         userData.data.userId = user.uid;
+
+        const token = JWT.generateToken({userId: user.uid.toString()});
+        userData.data.token = token;
 
         const docRef = await UserServices.createDocService(userData.data);
         const docId = docRef.id;
@@ -42,7 +46,10 @@ const emailLogin = async(req: Request, res: Response): Promise<void> => {
         const userCredential = await signInWithEmailAndPassword(FirebaseConfig.auth, email, password);
         const userId = userCredential.user.uid;
 
+        const token = JWT.generateToken({userId: userCredential.user.uid.toString()});
+
         const userData = await UserServices.getDocByUID(userId);
+        userData!.token = token;
         SuccessResponse.data = userData!;
 
         res.status(StatusCodes.OK).json(SuccessResponse);

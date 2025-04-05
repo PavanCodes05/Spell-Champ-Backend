@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { GradeServices, UserServices } from '../services/index.js';
 import { ErrorResponse, SuccessResponse } from '../utils/index.js';
 import { StatusCodes } from 'http-status-codes';
+import { AuthRequest } from '../middlewares/index.js';
 
 
 const createGradeController = async(req: Request, res: Response): Promise<void> => {
@@ -63,10 +64,15 @@ const getQuizzesController = async(req: Request, res: Response): Promise<void> =
         return;      
     };
 };
-const gradeupdateController = async(req: Request, res: Response): Promise<void> => {
+const gradeupdateController = async(req: AuthRequest, res: Response): Promise<void> => {
     try {
-        const { id , grade } = req.body;
-        const gradeinfo = await GradeServices.updategradeService(id , grade);
+        const { grade } = req.body;
+        const userId = req.user?.userId;
+
+        const docRef = await UserServices.getDocByUID(userId!);
+        const docId = docRef?.docId;
+
+        const gradeinfo = await GradeServices.updategradeService(docId , grade);
 
         SuccessResponse.data = gradeinfo!;
         res.status(200).json(SuccessResponse);
