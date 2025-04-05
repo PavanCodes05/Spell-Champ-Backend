@@ -8,7 +8,8 @@ const UserSchema = zod.object({
     password: zod.string().min(6, "Password must be atleast 6 characters"),
     currentGrade: zod.number().min(1, "Grade must be at least 1").max(12).default(1),
     trophies: zod.number().nonnegative().default(0),
-    diamonds: zod.number().nonnegative().default(0)
+    diamonds: zod.number().nonnegative().default(0),
+    token: zod.string().optional()
 });
 
 export default UserSchema;
