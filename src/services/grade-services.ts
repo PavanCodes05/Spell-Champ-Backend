@@ -1,19 +1,18 @@
 import { GradeRepository } from '../repositories/index.js';
-import { GradeSchema } from '../models/index.js';
+import { ExercisesSchema, QuizzesSchema } from '../models/index.js';
 import { AppError } from '../utils/index.js';
 import UserServices from "./user-services.js";
 
 const grades = new GradeRepository();
 
-const createGradeService = async(grade: number, data: unknown) => {
+const createGradeService = async(grade: number) => {
     try {
         const gradeInfo = await grades.getGradeInfo(grade);
         if(gradeInfo) {
-            throw new AppError(403, "Grade Aleady Exists");
+            return gradeInfo;
         };
         
-        const validatedData = GradeSchema.parse(data);
-        const docRef = await grades.addDocument(validatedData);
+        const docRef = await grades.addDocument({"grade": grade,  exercises: [], quizzes: []});
         
         const docId = docRef.id;
         const doc = await grades.updateField(docId, {id: docId});
@@ -24,23 +23,37 @@ const createGradeService = async(grade: number, data: unknown) => {
     };
 }
 
-const createExerciseService = async(grade: number) => {
+const createExerciseService = async(gradeInfo: any, newExercises: Array<Object>) => {
     try {
-        const gradeInfo = await grades.getGradeInfo(grade);
-        if (!gradeInfo) {
-            throw new AppError(404, "Grade Not Found!")
-        };
-
         const exercises = gradeInfo?.exercises;
         const newExerciseNumber = Object.keys(exercises).length + 1;
 
-        const updatedDoc = await grades.updateField(gradeInfo.id, {[`exercises.${newExerciseNumber}`]: []});
-        
+        const ValidatedData = ExercisesSchema.parse(newExercises);
+        const newExercise = {[`exercises.${newExerciseNumber}`]: ValidatedData};
+
+        const updatedDoc = await grades.updateField(gradeInfo.id, newExercise);
+    
         return updatedDoc;
     } catch (error) {
         throw error;
     };
 };
+
+const createQuizService = async(gradeInfo: any, newQuizzes: Array<Object>) => {
+    try {
+        const quizzes = gradeInfo?.quizzes;
+        const newQuizNumber = Object.keys(quizzes).length + 1;
+
+        const ValidatedData = QuizzesSchema.parse(newQuizzes);
+        const newQuiz = {[`quizzes.${newQuizNumber}`]: ValidatedData};
+
+        const updatedDoc = await grades.updateField(gradeInfo.id, newQuiz);
+    
+        return updatedDoc;
+    } catch (error) {
+        throw error;
+    };
+}
 
 const getExercisesService = async(grade: number) => {
     try {
@@ -88,5 +101,5 @@ const getQuizzesService = async(grade: number) => {
     
     
 };
-const GradeServices = { createExerciseService, createGradeService, getExercisesService, getQuizzesService, updategradeService};
+const GradeServices = { createExerciseService, createGradeService, getExercisesService, getQuizzesService, updategradeService, createQuizService};
 export default GradeServices;

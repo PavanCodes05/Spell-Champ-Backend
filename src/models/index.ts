@@ -1,7 +1,8 @@
 import UserSchema from './user-model.js';
-import GradeSchema from './grade-model.js';
+import { ExercisesSchema, QuizzesSchema} from './grade-model.js';
 
 export {
     UserSchema,
-    GradeSchema
+    ExercisesSchema,
+    QuizzesSchema
 };

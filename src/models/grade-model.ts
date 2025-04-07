@@ -10,6 +10,11 @@ const QuizSchema = zod.object({
     answer: zod.any()
 });
 
+const ExercisesSchema = zod.array(ExerciseSchema);
+
+const QuizzesSchema = zod.array(QuizSchema);
+
+
 const GradeSchema = zod.object({
     id: zod.string().optional(),
     grade: zod.number(),
@@ -17,4 +22,4 @@ const GradeSchema = zod.object({
     quizzes: zod.record(zod.string(), zod.array(QuizSchema)).default({})
 });
 
-export default GradeSchema;
+export { ExercisesSchema, QuizzesSchema };

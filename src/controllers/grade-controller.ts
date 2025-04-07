@@ -4,28 +4,14 @@ import { ErrorResponse, SuccessResponse } from '../utils/index.js';
 import { StatusCodes } from 'http-status-codes';
 import { AuthRequest } from '../middlewares/index.js';
 
-
-const createGradeController = async(req: Request, res: Response): Promise<void> => {
-    try {
-        const { grade } = req.body;
-        const gradeInfo = await GradeServices.createGradeService(grade, req.body);
-
-        SuccessResponse.data = gradeInfo!;
-        res.status(StatusCodes.CREATED).json(SuccessResponse);
-        return;
-    } catch (error) {
-        ErrorResponse.error = error!;
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
-        return;
-    };
-};
-
 const createExerciseController = async(req: Request, res: Response): Promise<void> => {
     try {
-        const { grade } = req.body;
-        const gradeInfo = await GradeServices.createExerciseService(grade);
+        const { grade, exercises } = req.body;
 
-        SuccessResponse.data = gradeInfo!;
+        const gradeInfo = await GradeServices.createGradeService(parseInt(grade));
+        const exercisesInfo = await GradeServices.createExerciseService(gradeInfo, exercises);
+
+        SuccessResponse.data = exercisesInfo!;
         res.status(StatusCodes.CREATED).json(SuccessResponse);
         return;
     } catch (error) {
@@ -34,6 +20,23 @@ const createExerciseController = async(req: Request, res: Response): Promise<voi
         return;
     };
 };
+
+const createQuizController = async(req: Request, res: Response): Promise<void> => {
+    try {
+        const { grade, quizzes } = req.body;
+
+        const gradeInfo = await GradeServices.createGradeService(parseInt(grade));
+        const quizzesInfo = await GradeServices.createQuizService(gradeInfo, quizzes);
+        
+        SuccessResponse.data = quizzesInfo!;
+        res.status(StatusCodes.CREATED).json(SuccessResponse);
+        return;
+    } catch (error) {
+        ErrorResponse.error = error!;
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+        return;
+    };
+}
 
 const getExercisesController = async(req: Request, res: Response ): Promise<void> => {
     try {
@@ -84,6 +87,6 @@ const gradeupdateController = async(req: AuthRequest, res: Response): Promise<vo
     };
 };
 
-const GradeController = { createExerciseController, createGradeController, getExercisesController, getQuizzesController ,gradeupdateController };
+const GradeController = { createExerciseController, getExercisesController, getQuizzesController ,gradeupdateController, createQuizController };
 
 export default GradeController;
