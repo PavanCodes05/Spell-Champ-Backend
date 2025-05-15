@@ -17,7 +17,10 @@ const UserSchema = zod.object({
     exercisesCompleted: zod.number().default(0),
     quizzesCompleted: zod.number().default(0),
     completedWords: zod.array(zod.string()).optional(),
+    completedExerciseIds: zod.array(zod.string()).default([]),
+    completedQuizIds: zod.array(zod.string()).default([]),
     trophies: TrophiesSchema.default({ gold: 0, silver: 0, bronze: 0 }),
+    quizTrophies: zod.record(zod.string()).default({}),
     diamonds: zod.number().nonnegative().default(0),
     token: zod.string().optional()
 }).strict();
