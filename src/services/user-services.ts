@@ -42,10 +42,13 @@ const getDocByUID = async(uid: string) => {
 };
 
 const updateFieldService = async(id: string, newData: any) => {
+    console.log(`updateFieldService: id=${id}, newData=${JSON.stringify(newData)}`);
     try {
         const updatedDoc = await users.updateField(id, newData);
+        console.log(`updateFieldService: updatedDoc=${JSON.stringify(updatedDoc)}`);
         return updatedDoc;
     } catch (error) {
+        console.log(`updateFieldService: error=${error}`);
         throw error;
     };
 };

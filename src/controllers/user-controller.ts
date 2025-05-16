@@ -21,6 +21,26 @@ const getUserProfile = async(req: AuthRequest, res: Response): Promise<void> => 
     }
 };
 
-const UserController = { getUserProfile }
+const updateUserProfile = async(req: AuthRequest, res: Response): Promise<void> => {
+    try {
+        const userId = req.user?.userId;
+        const userInfo = req.body;
+
+        console.log(`updateUserProfile: req.user=${JSON.stringify(req.user)}`);
+        console.log(`updateUserProfile: req.body=${JSON.stringify(req.body)}`);
+
+        const doc = await UserServices.getDocByUID(userId!);
+        const updatedInfo = await UserServices.updateFieldService(doc!.docId, userInfo);
+        SuccessResponse.data = updatedInfo!;
+        res.status(StatusCodes.OK).json(SuccessResponse);
+        return;
+    } catch (error) {
+        ErrorResponse.error = error!;
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+        return;
+    }
+};
+
+const UserController = { getUserProfile, updateUserProfile };
 
 export default UserController;
